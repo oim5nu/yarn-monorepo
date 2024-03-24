@@ -1,0 +1,90 @@
+Arguments: 
+  /Users/welcome/.nvm/versions/node/v18.19.1/bin/node /usr/local/bin/yarn add commitizen@^4.2.4 -D -W
+
+PATH: 
+  /Users/welcome/.sdkman/candidates/java/current/bin:/Users/welcome/.sdkman/candidates/gradle/current/bin:/Users/welcome/.nvm/versions/node/v18.19.1/bin:/Users/welcome/bin:/usr/local/bin:/Users/welcome/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Users/welcome/.cargo/bin
+
+Yarn version: 
+  1.3.2
+
+Node version: 
+  18.19.1
+
+Platform: 
+  darwin x64
+
+npm manifest: 
+  {
+    "name": "yarn-monorepo",
+    "version": "1.0.0",
+    "main": "index.js",
+    "author": "Yuanpeng Zheng",
+    "license": "MIT",
+    "private": true,
+    "scripts": {
+      "start": "turbo run start",
+      "build": "turbo run build",
+      "dev": "turbo run dev",
+      "test": "turbo run test",
+      "test:nowatch": "cross-env-shell CI=true turbo run test",
+      "test:ci": "cross-env-shell CI=true turbo run test --env=jsdom",
+      "commit": "yarn format && yarn test:nowatch && ./node_modules/.bin/git-cz",
+      "docker-start": "echo 'Once started, use https://localhost:8443' && yarn docker-build && docker-compose up --build",
+      "start:mock": "concurrently 'yarn workspace mocks start' 'yarn workspace server start' 'yarn workspace frontend start'",
+      "generate": "graphql-codegen --config codegen.yml -r dotenv/config",
+      "perf/lighthouse": "yarn workspace frontend perf:lighthouse",
+      "local:mocks": "yarn workspace mocks local",
+      "local:frontend": "yarn workspace frontend local",
+      "local:server": "yarn workspace server local",
+      "local:backend": "npm-run-all --parallel local:server local:mocks ",
+      "local": "npm-run-all --parallel local:frontend local:server local:mock"
+    },
+    "husky": {
+      "hooks": {
+        "pre-commit": "lint-staged"
+      }
+    },
+    "lint-staged": {
+      "*.{js,ts,jsx,tsx,json,css,md}": [
+        "prettier --write",
+        "git add"
+      ]
+    },
+    "config": {
+      "commitizen": {
+        "path": "./node_modules/cz-conventional-changelog"
+      }
+    },
+    "devDependencies": {},
+    "resolutions": {
+      "graphql": "^16.6.0",
+      "typescript": "^5.3.3"
+    },
+    "workspaces": {
+      "packages": [
+        "apps/common",
+        "apps/server",
+        "apps/frontend",
+        "apps/mocks"
+      ]
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  TypeError: patterns.map is not a function
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:54024:78
+      at Generator.next (<anonymous>)
+      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:92:30)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:110:14
+      at new Promise (<anonymous>)
+      at new F (/usr/local/lib/node_modules/yarn/lib/cli.js:29389:28)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:89:12
+      at Config.resolveWorkspaces (/usr/local/lib/node_modules/yarn/lib/cli.js:54060:7)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:21998:49
+      at Generator.next (<anonymous>)
