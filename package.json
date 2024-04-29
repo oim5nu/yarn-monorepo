@@ -1,70 +1,71 @@
 {
-  "name": "yarn-monorepo",
-  "version": "1.0.0",
-  "main": "index.js",
-  "author": "Yuanpeng Zheng",
-  "license": "MIT",
-  "private": true,
-  "scripts": {
-    "start": "turbo run start",
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "test": "turbo run test",
-    "test:nowatch": "cross-env-shell CI=true turbo run test",
-    "test:ci": "cross-env-shell CI=true turbo run test --env=jsdom",
-    "commit": "yarn format && yarn test:nowatch && ./node_modules/.bin/git-cz",
-    "docker-start": "echo 'Once started, use https://localhost:8443' && yarn docker-build && docker-compose up --build",
-    "start:mock": "concurrently 'yarn workspace mocks start' 'yarn workspace server start' 'yarn workspace frontend start'",
-    "generate": "graphql-codegen --config codegen.yml -r dotenv/config",
-    "perf/lighthouse": "yarn workspace frontend perf:lighthouse",
-    "local:mocks": "yarn workspace mocks local",
-    "local:frontend": "yarn workspace frontend local",
-    "local:server": "yarn workspace server local",
-    "local:backend": "npm-run-all --parallel local:server local:mocks ",
-    "local": "npm-run-all --parallel local:frontend local:server local:mock"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
+    "name": "yarn-monorepo",
+    "version": "1.0.0",
+    "main": "index.js",
+    "author": "Yuanpeng Zheng",
+    "license": "MIT",
+    "private": true,
+    "scripts": {
+        "start": "turbo run start",
+        "build": "turbo run build",
+        "dev": "turbo run dev",
+        "test": "turbo run test",
+        "test:nowatch": "cross-env-shell CI=true turbo run test",
+        "test:ci": "cross-env-shell CI=true turbo run test --env=jsdom",
+        "commit": "yarn format && yarn test:nowatch && ./node_modules/.bin/git-cz",
+        "docker-start": "echo 'Once started, use https://localhost:8443' && yarn docker-build && docker-compose up --build",
+        "start:mock": "concurrently 'yarn workspace mocks start' 'yarn workspace server start' 'yarn workspace frontend start'",
+        "generate": "graphql-codegen --config codegen.yml -r dotenv/config",
+        "perf/lighthouse": "yarn workspace frontend perf:lighthouse",
+        "local:mocks": "yarn workspace mocks local",
+        "local:frontend": "yarn workspace frontend local",
+        "local:server": "yarn workspace server local",
+        "local:backend": "npm-run-all --parallel local:server local:mocks ",
+        "local": "npm-run-all --parallel local:frontend local:server local:mock"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.{js,ts,jsx,tsx,json,css,md}": [
+            "prettier --write",
+            "git add"
+        ]
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
+    },
+    "devDependencies": {
+        "@graphql-codegen/cli": "^5.0.2",
+        "@graphql-codegen/introspection": "^4.0.3",
+        "@graphql-codegen/typescript": "^4.0.6",
+        "@graphql-codegen/typescript-operations": "^4.2.0",
+        "@graphql-codegen/typescript-react-apollo": "^4.3.0",
+        "@graphql-codegen/typescript-resolvers": "^4.0.6",
+        "commitizen": "^4.2.4",
+        "concurrently": "^4.1.0",
+        "cross-env": "6.0.3",
+        "husky": "^1.1.4",
+        "lint-staged": "^11.1.2",
+        "prettier": "^3.2.4",
+        "rimraf": "2.6.3",
+        "turbo": "1.5.5"
+    },
+    "resolutions": {
+        "graphql": "^16.6.0",
+        "typescript": "^5.3.3"
+    },
+    "workspaces": {
+        "packages": [
+            "apps/common",
+            "apps/bff",
+            "apps/frontend",
+            "apps/mocks",
+            "apps/backend"
+        ]
     }
-  },
-  "lint-staged": {
-    "*.{js,ts,jsx,tsx,json,css,md}": [
-      "prettier --write",
-      "git add"
-    ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
-  "devDependencies": {
-    "@graphql-codegen/cli": "^5.0.2",
-    "@graphql-codegen/introspection": "^4.0.3",
-    "@graphql-codegen/typescript": "^4.0.6",
-    "@graphql-codegen/typescript-operations": "^4.2.0",
-    "@graphql-codegen/typescript-react-apollo": "^4.3.0",
-    "@graphql-codegen/typescript-resolvers": "^4.0.6",
-    "commitizen": "^4.2.4",
-    "concurrently": "^4.1.0",
-    "cross-env": "6.0.3",
-    "husky": "^1.1.4",
-    "lint-staged": "^11.1.2",
-    "prettier": "^3.2.4",
-    "rimraf": "2.6.3",
-    "turbo": "1.5.5"
-  },
-  "resolutions": {
-    "graphql": "^16.6.0",
-    "typescript": "^5.3.3"
-  },
-  "workspaces": {
-    "packages": [
-      "apps/common",
-      "apps/server",
-      "apps/frontend",
-      "apps/mocks"
-    ]
-  }
 }
