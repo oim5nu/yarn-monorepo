@@ -1,0 +1,1 @@
+declare const __non__webpack_require__: NodeRequireFunction;
